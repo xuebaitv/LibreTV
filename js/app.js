@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document.addEventListener('DOMContentLoaded', function() {
+document。addEventListener('DOMContentLoaded', function() {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -380,13 +380,27 @@ function selectAllAPIs(selectAll = true, excludeAdult = false) {
     checkAdultAPIsSelected();
 }
 
-// 全选或取消全选成人API（兼容你的按钮参数）
+// 全选或取消全选成人API，同时取消勾选普通资源
 function selectAllAdultAPIs(selectAll = true, dummyParam = false) {
-    const checkboxes = document.querySelectorAll('#apiCheckboxes .api-adult');
-
-    checkboxes.forEach(checkbox => {
+    // 获取所有成人API复选框并选中它们
+    const adultCheckboxes = document.querySelectorAll('#apiCheckboxes .api-adult');
+    adultCheckboxes.forEach(checkbox => {
         checkbox.checked = selectAll;
     });
+
+    // 如果是全选成人资源，则取消勾选所有普通资源
+    if (selectAll) {
+        const normalCheckboxes = document.querySelectorAll('#apiCheckboxes input:not(.api-adult)');
+        normalCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // 同时取消勾选所有自定义API中的普通资源
+        const customNormalCheckboxes = document.querySelectorAll('#customApisList input:not(.api-adult)');
+        customNormalCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
 
     updateSelectedAPIs();
     checkAdultAPIsSelected();
