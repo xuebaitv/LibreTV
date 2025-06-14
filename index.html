@@ -16,6 +16,45 @@
     <script src="libs/tailwindcss.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
+    
+    <!-- 自定义回到顶部按钮样式 -->
+    <style>
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .back-to-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 30px rgba(108, 92, 231, 0.5);
+        }
+        
+        .back-to-top-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
 </head>
 <body class="page-bg text-white">
     <!-- 将历史记录按钮移到左上角，并缩小尺寸 -->
@@ -388,6 +427,13 @@
         </div>
     </div>
 
+    <!-- 回到顶部按钮 - 使用内联SVG图标 -->
+    <button id="backToTopBtn" class="back-to-top-btn" aria-label="回到顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
     <!-- JSON-LD 结构化数据 -->
     <script type="application/ld+json">
     {
@@ -437,5 +483,30 @@
 
     <!-- 添加弹窗和URL搜索参数处理脚本 -->
     <script src="js/index-page.js"></script>
+    
+    <!-- 回到顶部按钮逻辑 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            
+            // 滚动事件监听 - 当滚动超过300px时显示按钮
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            // 点击按钮平滑滚动到顶部
+            backToTopBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
