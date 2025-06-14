@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -66,6 +66,29 @@ function initAPICheckboxes() {
     const container = document.getElementById('apiCheckboxes');
     container.innerHTML = '';
 
+    // 添加全选按钮区域
+    const selectAllContainer = document.createElement('div');
+    selectAllContainer.className = 'flex flex-wrap gap-2 mb-3 pb-2 border-b border-gray-700';
+    container.appendChild(selectAllContainer);
+
+    // 添加普通API全选按钮
+    const selectAllNormal = document.createElement('button');
+    selectAllNormal.className = 'px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm transition-colors';
+    selectAllNormal.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> 全选普通资源';
+    selectAllNormal.addEventListener('click', function() {
+        selectAllAPIs(true, true); // 全选普通资源，排除成人资源
+    });
+    selectAllContainer.appendChild(selectAllNormal);
+
+    // 添加成人API全选按钮（新增功能）
+    const selectAllAdult = document.createElement('button');
+    selectAllAdult.className = 'px-3 py-1.5 bg-pink-600 hover:bg-pink-700 text-white rounded text-sm transition-colors';
+    selectAllAdult.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg> 全选成人资源';
+    selectAllAdult.addEventListener('click', function() {
+        selectAllAdultAPIs(true); // 全选成人资源
+    });
+    selectAllContainer.appendChild(selectAllAdult);
+
     // 添加普通API组标题
     const normaldiv = document.createElement('div');
     normaldiv.id = 'normaldiv';
@@ -94,7 +117,7 @@ function initAPICheckboxes() {
         normaldiv.appendChild(checkbox);
 
         // 添加事件监听器
-        checkbox.querySelector('input').addEventListener('change', function () {
+        checkbox.querySelector('input').addEventListener('change', function() {
             updateSelectedAPIs();
             checkAdultAPIsSelected();
         });
@@ -146,7 +169,7 @@ function addAdultAPI() {
             adultdiv.appendChild(checkbox);
 
             // 添加事件监听器
-            checkbox.querySelector('input').addEventListener('change', function () {
+            checkbox.querySelector('input').addEventListener('change', function() {
                 updateSelectedAPIs();
                 checkAdultAPIsSelected();
             });
@@ -244,7 +267,7 @@ function renderCustomAPIsList() {
             </div>
         `;
         container.appendChild(apiItem);
-        apiItem.querySelector('input').addEventListener('change', function () {
+        apiItem.querySelector('input').addEventListener('change', function() {
             updateSelectedAPIs();
             checkAdultAPIsSelected();
         });
@@ -361,7 +384,7 @@ function updateSelectedApiCount() {
     }
 }
 
-// 全选或取消全选API
+// 全选或取消全选普通API（排除成人API）
 function selectAllAPIs(selectAll = true, excludeAdult = false) {
     const checkboxes = document.querySelectorAll('#apiCheckboxes input[type="checkbox"]');
 
@@ -371,6 +394,18 @@ function selectAllAPIs(selectAll = true, excludeAdult = false) {
         } else {
             checkbox.checked = selectAll;
         }
+    });
+
+    updateSelectedAPIs();
+    checkAdultAPIsSelected();
+}
+
+// 全选或取消全选成人API（新增功能）
+function selectAllAdultAPIs(selectAll = true) {
+    const checkboxes = document.querySelectorAll('#apiCheckboxes .api-adult');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll;
     });
 
     updateSelectedAPIs();
@@ -511,14 +546,14 @@ function toggleSettings(e) {
 // 设置事件监听器
 function setupEventListeners() {
     // 回车搜索
-    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             search();
         }
     });
 
     // 点击外部关闭设置面板和历史记录面板
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         // 关闭设置面板
         const settingsPanel = document.querySelector('#settingsPanel.show');
         const settingsButton = document.querySelector('#settingsPanel .close-btn');
@@ -543,7 +578,7 @@ function setupEventListeners() {
     // 黄色内容过滤开关事件绑定
     const yellowFilterToggle = document.getElementById('yellowFilterToggle');
     if (yellowFilterToggle) {
-        yellowFilterToggle.addEventListener('change', function (e) {
+        yellowFilterToggle.addEventListener('change', function(e) {
             localStorage.setItem('yellowFilterEnabled', e.target.checked);
 
             // 控制黄色内容接口的显示状态
@@ -564,7 +599,7 @@ function setupEventListeners() {
     // 广告过滤开关事件绑定
     const adFilterToggle = document.getElementById('adFilterToggle');
     if (adFilterToggle) {
-        adFilterToggle.addEventListener('change', function (e) {
+        adFilterToggle.addEventListener('change', function(e) {
             localStorage.setItem(PLAYER_CONFIG.adFilteringStorage, e.target.checked);
         });
     }
@@ -828,12 +863,12 @@ function hookInput() {
 
     // 重写 value 属性的 getter 和 setter
     Object.defineProperty(input, 'value', {
-        get: function () {
+        get: function() {
             // 确保读取时返回字符串（即使原始值为 undefined/null）
             const originalValue = descriptor.get.call(this);
             return originalValue != null ? String(originalValue) : '';
         },
-        set: function (value) {
+        set: function(value) {
             // 显式将值转换为字符串后写入
             const strValue = String(value);
             descriptor.set.call(this, strValue);
@@ -1344,5 +1379,3 @@ function saveStringAsFile(content, fileName) {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 }
-
-// 移除Node.js的require语句，因为这是在浏览器环境中运行的
