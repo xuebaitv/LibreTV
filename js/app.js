@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document。addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -66,11 +66,8 @@ function initAPICheckboxes() {
     const container = document.getElementById('apiCheckboxes');
     container.innerHTML = '';
 
-    // 添加全选按钮区域
-    const selectAllContainer = document.createElement('div');
-    selectAllContainer.className = 'flex flex-wrap gap-2 mb-3 pb-2 border-b border-gray-700';
-    container.appendChild(selectAllContainer);
-
+    // 注意：HTML中已包含批量操作按钮，此处无需重复生成
+    // 直接初始化复选框内容
 
     // 添加普通API组标题
     const normaldiv = document.createElement('div');
@@ -367,7 +364,7 @@ function updateSelectedApiCount() {
     }
 }
 
-// 全选或取消全选普通API（排除成人API）
+// 全选或取消全选API（兼容你的按钮参数）
 function selectAllAPIs(selectAll = true, excludeAdult = false) {
     const checkboxes = document.querySelectorAll('#apiCheckboxes input[type="checkbox"]');
 
@@ -383,8 +380,8 @@ function selectAllAPIs(selectAll = true, excludeAdult = false) {
     checkAdultAPIsSelected();
 }
 
-// 全选或取消全选成人API（新增功能）
-function selectAllAdultAPIs(selectAll = true) {
+// 全选或取消全选成人API（兼容你的按钮参数）
+function selectAllAdultAPIs(selectAll = true, dummyParam = false) {
     const checkboxes = document.querySelectorAll('#apiCheckboxes .api-adult');
 
     checkboxes.forEach(checkbox => {
