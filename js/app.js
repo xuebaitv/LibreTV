@@ -380,43 +380,24 @@ function selectAllAPIs(selectAll = true, excludeAdult = false) {
     checkAdultAPIsSelected();
 }
 
-// 全选或取消全选成人API，并在全选时自动取消勾选普通资源
+// 全选或取消全选成人API（兼容你的按钮参数）
 function selectAllAdultAPIs(selectAll = true, dummyParam = false) {
-    // 获取所有成人API复选框
-    const adultCheckboxes = document.querySelectorAll('#apiCheckboxes .api-adult, #customApisList .api-adult');
-    
-    // 全选或取消全选成人API
-    adultCheckboxes.forEach(checkbox => {
+    const checkboxes = document.querySelectorAll('#apiCheckboxes .api-adult');
+
+    checkboxes.forEach(checkbox => {
         checkbox.checked = selectAll;
     });
 
-    // 如果是全选成人资源，则取消勾选所有普通资源
-    if (selectAll) {
-        // 取消勾选内置普通资源
-        const builtInNormalCheckboxes = document.querySelectorAll('#apiCheckboxes input:not(.api-adult)');
-        builtInNormalCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-
-        // 取消勾选自定义普通资源
-        const customNormalCheckboxes = document.querySelectorAll('#customApisList input:not(.api-adult)');
-        customNormalCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-        
-        // 确保黄色过滤开关关闭
-        const yellowFilterToggle = document.getElementById('yellowFilterToggle');
-        if (yellowFilterToggle && yellowFilterToggle.checked) {
-            yellowFilterToggle.checked = false;
-            yellowFilterToggle.dispatchEvent(new Event('change'));
-        }
-    }
-
-    // 更新选中的API并检查状态
     updateSelectedAPIs();
-    
-    // 强制刷新API列表显示
-    initAPICheckboxes();
+    checkAdultAPIsSelected();
+}
+
+// 显示添加自定义API表单
+function showAddCustomApiForm() {
+    const form = document.getElementById('addCustomApiForm');
+    if (form) {
+        form.classList.remove('hidden');
+    }
 }
 // 取消添加自定义API - 修改函数来重用恢复按钮逻辑
 function cancelAddCustomApi() {
