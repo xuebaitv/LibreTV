@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document。addEventListener('DOMContentLoaded', function() {
+document。addEventListener('DOMContentLoaded'， function() {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -403,18 +403,20 @@ function selectAllAdultAPIs(selectAll = true, dummyParam = false) {
         customNormalCheckboxes.forEach(checkbox => {
             checkbox.checked = false;
         });
+        
+        // 确保黄色过滤开关关闭
+        const yellowFilterToggle = document.getElementById('yellowFilterToggle');
+        if (yellowFilterToggle && yellowFilterToggle.checked) {
+            yellowFilterToggle.checked = false;
+            yellowFilterToggle.dispatchEvent(new Event('change'));
+        }
     }
 
+    // 更新选中的API并检查状态
     updateSelectedAPIs();
-    checkAdultAPIsSelected();
-}
-
-// 显示添加自定义API表单
-function showAddCustomApiForm() {
-    const form = document.getElementById('addCustomApiForm');
-    if (form) {
-        form.classList.remove('hidden');
-    }
+    
+    // 强制刷新API列表显示
+    initAPICheckboxes();
 }
 // 取消添加自定义API - 修改函数来重用恢复按钮逻辑
 function cancelAddCustomApi() {
