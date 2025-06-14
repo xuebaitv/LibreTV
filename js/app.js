@@ -12,7 +12,7 @@ let currentVideoTitle = '';
 let episodesReversed = false;
 
 // 页面初始化
-document。addEventListener('DOMContentLoaded'， function() {
+document.addEventListener('DOMContentLoaded', function() {
     // 初始化API复选框
     initAPICheckboxes();
 
@@ -399,6 +399,7 @@ function showAddCustomApiForm() {
         form.classList.remove('hidden');
     }
 }
+
 // 取消添加自定义API - 修改函数来重用恢复按钮逻辑
 function cancelAddCustomApi() {
     const form = document.getElementById('addCustomApiForm');
