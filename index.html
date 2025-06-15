@@ -19,7 +19,7 @@
     
     <!-- 自定义回到顶部按钮样式 -->
     <style>
-        。back-to-top-btn {
+        .back-to-top-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -31,7 +31,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 50;
+            z-index: 100; /* 提高层级确保可见 */
             box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
             opacity: 0;
             visibility: hidden;
@@ -362,7 +362,7 @@
         <div class="bg-[#111] p-8 rounded-lg w-11/12 max-w-4xl border border-[#333] max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center mb-6 flex-none">
                 <h2 id="modalTitle" class="text-2xl font-bold gradient-text break-words pr-4 max-w-[80%]"></h2>
-                <button 于click="closeModal()" class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl transition-colors flex-shrink-0">&times;</button>
             </div>
             <div id="modalContent" class="overflow-auto flex-1 min-h-0">
                 <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
@@ -490,14 +490,27 @@
         document.addEventListener('DOMContentLoaded', function() {
             const backToTopBtn = document.getElementById('backToTopBtn');
             
-            // 滚动事件监听 - 当滚动超过300px时显示按钮
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
+            // 确保按钮存在
+            if (!backToTopBtn) {
+                console.error('回到顶部按钮元素不存在');
+                return;
+            }
+            
+            // 优化滚动事件处理
+            function handleScroll() {
+                // 兼容不同浏览器的滚动距离获取方式
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // 滚动超过300px时显示按钮
+                if (scrollY > 300) {
                     backToTopBtn.classList.add('visible');
                 } else {
                     backToTopBtn.classList.remove('visible');
                 }
-            });
+            }
+            
+            // 绑定滚动事件
+            window.addEventListener('scroll', handleScroll);
             
             // 点击按钮平滑滚动到顶部
             backToTopBtn.addEventListener('click', function(e) {
@@ -507,6 +520,9 @@
                     behavior: 'smooth'
                 });
             });
+            
+            // 初始化检查一次（处理页面加载时已有滚动的情况）
+            handleScroll();
         });
     </script>
 </body>
