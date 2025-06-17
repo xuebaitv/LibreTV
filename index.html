@@ -54,79 +54,6 @@
             width: 24px;
             height: 24px;
         }
-        
-        /* 新增关键词搜索区域样式 */
-        .keyword-section {
-            margin-bottom: 80px;
-        }
-        .keyword-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .keyword-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .more-btn {
-            background: none;
-            border: 1px solid #333;
-            color: #aaa;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-        .more-btn:hover {
-            border-color: #6c5ce7;
-            color: #6c5ce7;
-        }
-        .keyword-results {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        @media (max-width: 768px) {
-            .keyword-results {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-        }
-        .keyword-item {
-            background: #151515;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .keyword-item:hover {
-            transform: translateY(-5px);
-        }
-        .keyword-poster {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-        .keyword-info {
-            padding: 10px;
-        }
-        .keyword-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .keyword-meta {
-            font-size: 0.7rem;
-            color: #777;
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body class="page-bg text-white">
@@ -384,34 +311,48 @@
                 </div>
             </div>
             
-            <!-- 新增关键词搜索区域 -->
-            <div id="keywordSearchArea" class="w-full my-12">
+            <!-- 关键词搜索结果区域 -->
+            <div id="keywordSearchArea" class="w-full my-8 hidden">
                 <div class="mx-auto max-w-screen-xl px-2">
+                    <h2 class="text-xl font-bold text-white mb-6">热门分类推荐</h2>
+                    
                     <!-- 国产影视区域 -->
-                    <div class="keyword-section" id="chinese-movies-section">
-                        <div class="keyword-header">
-                            <h3 class="keyword-title">国产影视</h3>
-                            <button class="more-btn" onclick="searchMoreKeyword('国产')">更多</button>
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-white">国产影视</h3>
+                            <button onclick="openFullSearchResults('国产')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
+                                更多
+                            </button>
                         </div>
-                        <div class="keyword-results" id="chinese-movies-results"></div>
+                        <div id="chinese-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+                            <!-- 国产影视搜索结果将在这里动态生成 -->
+                        </div>
                     </div>
                     
                     <!-- 香港影视区域 -->
-                    <div class="keyword-section" id="hongkong-movies-section">
-                        <div class="keyword-header">
-                            <h3 class="keyword-title">香港影视</h3>
-                            <button class="more-btn" onclick="searchMoreKeyword('香港')">更多</button>
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-white">香港影视</h3>
+                            <button onclick="openFullSearchResults('香港')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
+                                更多
+                            </button>
                         </div>
-                        <div class="keyword-results" id="hongkong-movies-results"></div>
+                        <div id="hongkong-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+                            <!-- 香港影视搜索结果将在这里动态生成 -->
+                        </div>
                     </div>
                     
                     <!-- 台湾影视区域 -->
-                    <div class="keyword-section" id="taiwan-movies-section">
-                        <div class="keyword-header">
-                            <h3 class="keyword-title">台湾影视</h3>
-                            <button class="more-btn" onclick="searchMoreKeyword('台湾')">更多</button>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-white">台湾影视</h3>
+                            <button onclick="openFullSearchResults('台湾')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
+                                更多
+                            </button>
                         </div>
-                        <div class="keyword-results" id="taiwan-movies-results"></div>
+                        <div id="taiwan-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <!-- 台湾影视搜索结果将在这里动态生成 -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -590,6 +531,91 @@
     <!-- 添加弹窗和URL搜索参数处理脚本 -->
     <script src="js/index-page.js"></script>
     
+    <!-- 关键词搜索功能脚本 -->
+    <script>
+        // 页面加载完成后初始化关键词搜索区域
+        document.addEventListener('DOMContentLoaded', function() {
+            // 显示关键词搜索区域
+            document.getElementById('keywordSearchArea').classList.remove('hidden');
+            
+            // 加载国产影视搜索结果
+            loadKeywordSearchResults('国产', 'chinese-movies');
+            
+            // 加载香港影视搜索结果
+            loadKeywordSearchResults('香港', 'hongkong-movies');
+            
+            // 加载台湾影视搜索结果
+            loadKeywordSearchResults('台湾', 'taiwan-movies');
+        });
+        
+        // 加载关键词搜索结果
+        function loadKeywordSearchResults(keyword, containerId) {
+            showLoading();
+            
+            // 调用与原有搜索功能一致的搜索方法
+            search(keyword, function(results) {
+                hideLoading();
+                
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                if (results && results.length > 0) {
+                    // 只显示前8条结果（两行，每行4条）
+                    const resultsToShow = results.slice(0, 8);
+                    
+                    resultsToShow.forEach(result => {
+                        // 使用与原有搜索结果一致的渲染方法
+                        const resultElement = createSearchResultElement(result);
+                        container.appendChild(resultElement);
+                    });
+                } else {
+                    container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-4">暂无相关结果</div>';
+                }
+            });
+        }
+        
+        // 打开完整搜索结果页面
+        function openFullSearchResults(keyword) {
+            // 调用与原有搜索功能一致的方法，跳转到搜索结果页面
+            window.location.href = `search.html?s=${encodeURIComponent(keyword)}`;
+        }
+        
+        // 创建搜索结果元素（复制原有搜索结果的创建逻辑）
+        function createSearchResultElement(result) {
+            const resultElement = document.createElement('div');
+            resultElement.className = 'group relative overflow-hidden rounded-lg bg-[#151515] border border-[#222] transition-all duration-300 hover:border-pink-500 hover:shadow-lg hover:shadow-pink-500/20';
+            resultElement.innerHTML = `
+                <a href="#" onclick="openVideoDetail('${result.id}', '${result.title}', '${result.cover}'); return false;" class="block">
+                    <div class="aspect-[3/4] overflow-hidden">
+                        <img src="${result.cover || 'https://picsum.photos/300/400'}" alt="${result.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="text-sm font-medium line-clamp-2">${result.title}</h3>
+                        <div class="flex items-center text-xs text-gray-400 mt-1">
+                            <span>${result.type || '未知类型'}</span>
+                            ${result.year ? '<span class="mx-1">•</span><span>' + result.year + '</span>' : ''}
+                            ${result.area ? '<span class="mx-1">•</span><span>' + result.area + '</span>' : ''}
+                        </div>
+                    </div>
+                </a>
+            `;
+            return resultElement;
+        }
+        
+        // 显示加载中提示
+        function showLoading() {
+            document.getElementById('loading').classList.remove('hidden');
+        }
+        
+        // 隐藏加载中提示
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+        }
+    </script>
+    
     <!-- 回到顶部按钮逻辑 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -629,129 +655,6 @@
             // 初始化检查一次（处理页面加载时已有滚动的情况）
             handleScroll();
         });
-    </script>
-    
-    <!-- 关键词搜索逻辑 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化关键词搜索区域
-            initKeywordSearch();
-        });
-        
-        function initKeywordSearch() {
-            // 显示加载状态
-            showLoading();
-            
-            // 定义需要搜索的关键词
-            const keywords = ['国产', '香港', '台湾'];
-            
-            // 为每个关键词执行搜索
-            keywords.forEach(keyword => {
-                searchKeyword(keyword);
-            });
-            
-            // 隐藏加载状态
-            setTimeout(hideLoading, 1500); // 模拟加载延迟
-        }
-        
-        function searchKeyword(keyword) {
-            // 调用现有搜索功能获取数据
-            // 注意：这里使用了与现有搜索一致的逻辑
-            return new Promise((resolve, reject) => {
-                // 模拟API请求延迟
-                setTimeout(() => {
-                    // 这里应该调用实际的搜索API，以下为模拟数据生成
-                    const resultsContainer = document.getElementById(`${keyword.toLowerCase()}-movies-results`);
-                    if (!resultsContainer) return;
-                    
-                    // 生成模拟搜索结果（实际应用中应替换为真实数据）
-                    const mockResults = generateMockResults(keyword, 6); // 每个关键词显示6条结果（两行）
-                    
-                    // 清空容器并添加结果
-                    resultsContainer.innerHTML = '';
-                    mockResults.forEach(result => {
-                        const itemElement = createKeywordItemElement(result);
-                        resultsContainer.appendChild(itemElement);
-                    });
-                    
-                    resolve(mockResults);
-                }, 800 + Math.random() * 500); // 模拟不同延迟
-            });
-        }
-        
-        function generateMockResults(keyword, count) {
-            // 生成模拟搜索结果（实际应用中应替换为API返回数据）
-            const results = [];
-            for (let i = 1; i <= count; i++) {
-                results.push({
-                    id: `mock-${keyword}-${i}`,
-                    title: `${keyword}电影 ${i}`,
-                    poster: `https://picsum.photos/300/450?random=${i}`,
-                    year: (2020 - Math.floor(Math.random() * 10)).toString(),
-                    type: Math.random() > 0.5 ? '电影' : '电视剧'
-                });
-            }
-            return results;
-        }
-        
-        function createKeywordItemElement(result) {
-            // 创建关键词搜索结果项元素
-            const item = document.createElement('div');
-            item.className = 'keyword-item';
-            item.innerHTML = `
-                <img src="${result.poster}" alt="${result.title}" class="keyword-poster">
-                <div class="keyword-info">
-                    <div class="keyword-name">${result.title}</div>
-                    <div class="keyword-meta">${result.year} · ${result.type}</div>
-                </div>
-            `;
-            
-            // 添加点击事件，点击后打开详情页（使用现有逻辑）
-            item.addEventListener('click', function() {
-                // 这里应调用现有详情页打开逻辑
-                openDetailPage(result.id);
-            });
-            
-            return item;
-        }
-        
-        function searchMoreKeyword(keyword) {
-            // 显示搜索结果区域
-            document.getElementById('searchInput').value = keyword;
-            document.getElementById('recentSearches').innerHTML = ''; // 清空最近搜索（实际应用中应添加到最近搜索）
-            search();
-        }
-        
-        function openDetailPage(id) {
-            // 打开详情模态框（使用现有逻辑）
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                // 这里应调用现有详情页逻辑
-                showToast('详情页功能将在实际数据中实现');
-            }, 500);
-        }
-        
-        function showLoading() {
-            document.getElementById('loading').classList.remove('hidden');
-        }
-        
-        function hideLoading() {
-            document.getElementById('loading').classList.add('hidden');
-        }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.remove('opacity-0', '-translate-y-full');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', '-translate-y-full');
-            }, 3000);
-        }
     </script>
 </body>
 </html>
