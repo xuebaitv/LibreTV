@@ -19,7 +19,7 @@
     
     <!-- 自定义回到顶部按钮样式 -->
     <style>
-        .back-to-top-btn {
+        。back-to-top-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -311,44 +311,6 @@
                 </div>
             </div>
             
-            <!-- 关键词搜索结果区域 -->
-            <div id="keywordSearchArea" class="w-full my-8">
-                <div class="mx-auto max-w-screen-xl px-2">
-                    <!-- 国产电影搜索结果 -->
-                    <div class="mb-10">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-xl font-bold text-white">国产电影</h2>
-                            <button onclick="goToFullSearchResults('国产')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
-                                更多
-                            </button>
-                        </div>
-                        <div id="chinese-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3"></div>
-                    </div>
-                    
-                    <!-- 香港电影搜索结果 -->
-                    <div class="mb-10">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-xl font-bold text-white">香港电影</h2>
-                            <button onclick="goToFullSearchResults('香港')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
-                                更多
-                            </button>
-                        </div>
-                        <div id="hongkong-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3"></div>
-                    </div>
-                    
-                    <!-- 台湾电影搜索结果 -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-xl font-bold text-white">台湾电影</h2>
-                            <button onclick="goToFullSearchResults('台湾')" class="text-sm px-3 py-1 bg-pink-600 hover:bg-pink-700 text-white rounded-lg">
-                                更多
-                            </button>
-                        </div>
-                        <div id="taiwan-movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3"></div>
-                    </div>
-                </div>
-            </div>
-            
             <!-- 搜索结果：初始隐藏 -->
             <div id="resultsArea" class="w-full hidden">
                 <div class="mx-auto max-w-7xl px-2"> <!-- 添加最大宽度限制并居中 -->
@@ -522,70 +484,6 @@
 
     <!-- 添加弹窗和URL搜索参数处理脚本 -->
     <script src="js/index-page.js"></script>
-    
-    <!-- 关键词搜索结果加载脚本 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 加载国产电影搜索结果
-            loadKeywordSearchResults('国产', 'chinese-movies', 27);
-            
-            // 加载香港电影搜索结果
-            loadKeywordSearchResults('香港', 'hongkong-movies', 27);
-            
-            // 加载台湾电影搜索结果
-            loadKeywordSearchResults('台湾', 'taiwan-movies', 27);
-        });
-        
-        // 加载关键词搜索结果函数
-        function loadKeywordSearchResults(keyword, containerId, limit) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            
-            // 显示加载状态
-            container.innerHTML = '<div class="w-full h-20 flex items-center justify-center text-gray-500">加载中...</div>';
-            
-            // 调用现有搜索逻辑获取结果
-            search(keyword, function(results) {
-                if (results && results.length > 0) {
-                    // 只显示指定数量的结果
-                    const limitedResults = results.slice(0, limit);
-                    renderSearchResults(limitedResults, container);
-                } else {
-                    container.innerHTML = '<div class="w-full h-20 flex items-center justify-center text-gray-500">暂无搜索结果</div>';
-                }
-            });
-        }
-        
-        // 渲染搜索结果
-        function renderSearchResults(results, container) {
-            container.innerHTML = '';
-            
-            results.forEach(result => {
-                const card = document.createElement('div');
-                card.className = 'group relative overflow-hidden rounded-lg bg-[#151515] border border-[#222] transition-all duration-300 hover:border-pink-500 hover:-translate-y-1';
-                card.innerHTML = `
-                    <a href="#" onclick="openDetailModal('${result.id}'); return false" class="block aspect-[3/4]">
-                        <div class="w-full h-full overflow-hidden">
-                            <img src="${result.cover || 'https://picsum.photos/300/400?random=' + Math.random()}" alt="${result.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        </div>
-                        <div class="p-2">
-                            <h3 class="text-sm font-medium line-clamp-2">${result.title}</h3>
-                            <p class="text-xs text-gray-400 mt-1">${result.quality || ''} ${result.year || ''}</p>
-                        </div>
-                    </a>
-                `;
-                container.appendChild(card);
-            });
-        }
-        
-        // 跳转到完整搜索结果页面
-        function goToFullSearchResults(keyword) {
-            // 这里使用现有的搜索逻辑，将关键词传递给搜索函数
-            // 注意：实际实现中可能需要根据你的路由机制调整
-            window.location.href = `search.html?s=${encodeURIComponent(keyword)}`;
-        }
-    </script>
     
     <!-- 回到顶部按钮逻辑 -->
     <script>
