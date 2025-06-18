@@ -132,6 +132,87 @@
             font-size: 1.1rem;
         }
         
+        /* 模态框样式 */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-center;
+            z-index: 100;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-primary);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .source-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .source-item {
+            background-color: var(--bg-card);
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .source-item:hover {
+            background-color: #2a2a2a;
+        }
+        
+        .source-name {
+            font-weight: 500;
+        }
+        
+        .source-quality {
+            background-color: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
         @media (max-width: 768px) {
             .video-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -145,6 +226,11 @@
         @media (max-width: 480px) {
             .video-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                max-height: 90vh;
+                overflow-y: auto;
             }
         }
     </style>
@@ -162,6 +248,21 @@
         </div>
     </div>
 
+    <!-- 播放源选择模态框 -->
+    <div id="playModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">选择播放源</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="sourceList" class="source-list">
+                    <!-- 播放源将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 模拟国产视频数据
         const domesticVideos = [
@@ -172,7 +273,10 @@
                 type: "电影",
                 year: "2023",
                 rating: "8.3",
-                source: "#"
+                sources: [
+                    { name: "腾讯视频", url: "#", quality: "1080P" },
+                    { name: "爱奇艺", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 2,
@@ -181,7 +285,10 @@
                 type: "电视剧",
                 year: "2023",
                 rating: "8.5",
-                source: "#"
+                sources: [
+                    { name: "央视影音", url: "#", quality: "1080P" },
+                    { name: "芒果TV", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 3,
@@ -190,7 +297,10 @@
                 type: "电影",
                 year: "2023",
                 rating: "7.8",
-                source: "#"
+                sources: [
+                    { name: "优酷", url: "#", quality: "1080P" },
+                    { name: "搜狐视频", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 4,
@@ -199,7 +309,10 @@
                 type: "电视剧",
                 year: "2024",
                 rating: "9.0",
-                source: "#"
+                sources: [
+                    { name: "腾讯视频", url: "#", quality: "1080P" },
+                    { name: "爱奇艺", url: "#", quality: "4K" }
+                ]
             },
             {
                 id: 5,
@@ -208,7 +321,10 @@
                 type: "电影",
                 year: "2022",
                 rating: "8.2",
-                source: "#"
+                sources: [
+                    { name: "咪咕视频", url: "#", quality: "1080P" },
+                    { name: "西瓜视频", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 6,
@@ -217,7 +333,10 @@
                 type: "电视剧",
                 year: "2022",
                 rating: "8.1",
-                source: "#"
+                sources: [
+                    { name: "央视影音", url: "#", quality: "1080P" },
+                    { name: "腾讯视频", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 7,
@@ -226,7 +345,10 @@
                 type: "电影",
                 year: "2021",
                 rating: "7.7",
-                source: "#"
+                sources: [
+                    { name: "优酷", url: "#", quality: "1080P" },
+                    { name: "爱奇艺", url: "#", quality: "720P" }
+                ]
             },
             {
                 id: 8,
@@ -235,7 +357,10 @@
                 type: "电视剧",
                 year: "2020",
                 rating: "8.8",
-                source: "#"
+                sources: [
+                    { name: "爱奇艺", url: "#", quality: "1080P" },
+                    { name: "搜狐视频", url: "#", quality: "720P" }
+                ]
             }
         ];
 
@@ -280,7 +405,7 @@
                                 <span>${video.year}</span>
                                 <span class="video-rating">${video.rating}</span>
                             </div>
-                            <button class="play-btn" onclick="window.location.href='${video.source}'">立即播放</button>
+                            <button class="play-btn" onclick="showPlaySources(${video.id})">选择播放源</button>
                         </div>
                     </div>
                 `;
@@ -288,6 +413,54 @@
             
             videoGrid.innerHTML = resultsHTML;
         }
+        
+        // 显示播放源选择模态框
+        function showPlaySources(videoId) {
+            const video = domesticVideos.find(v => v.id === videoId);
+            if (!video) return;
+            
+            const modal = document.getElementById('playModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const sourceList = document.getElementById('sourceList');
+            
+            modalTitle.textContent = video.title;
+            
+            // 生成播放源列表
+            let sourcesHTML = '';
+            video.sources.forEach(source => {
+                sourcesHTML += `
+                    <div class="source-item" onclick="playVideo('${source.url}')">
+                        <span class="source-name">${source.name}</span>
+                        <span class="source-quality">${source.quality}</span>
+                    </div>
+                `;
+            });
+            
+            sourceList.innerHTML = sourcesHTML;
+            modal.style.display = 'flex';
+        }
+        
+        // 播放视频
+        function playVideo(url) {
+            // 这里可以添加实际的播放逻辑
+            // 示例中只是简单跳转，实际应用可能会嵌入视频播放器
+            if (url.startsWith('#')) {
+                alert('演示模式：点击"确定"后将跳转到播放页面');
+            }
+            window.location.href = url;
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('playModal').style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        document.getElementById('playModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
