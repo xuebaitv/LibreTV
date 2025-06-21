@@ -151,6 +151,16 @@ const API_SITES = {
          name: '玉兔资源',
          adult: true
      },
+     yutu: {
+         api: 'https://slapibf.com/api.php/provide/vod',
+         name: '森林资源',
+         adult: true
+     },
+     yutu: {
+         api: 'https://api.bwzym3u8.com/api.php/provide/vod',
+         name: '百万资源',
+         adult: true
+     },
 
     // 下面是资源失效率高的API源，不建议使用
     // subo: {
