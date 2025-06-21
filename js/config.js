@@ -50,7 +50,7 @@ const API_SITES = {
     },
     heimuer: {
         api: 'https://json.heimuer.xyz/api.php/provide/vod',
-        name: '黑木耳',
+        name: '黑木耳（1920*800）',
         detail: 'https://heimuer.tv', 
     },
     zy360: {
@@ -63,7 +63,7 @@ const API_SITES = {
     },
     wolong: {
         api: 'https://wolongzyw.com/api.php/provide/vod',
-        name: '卧龙资源',
+        name: '卧龙资源（1920*800）',
     }, 
     hwba: {
         api: 'https://cjhwba.com/api.php/provide/vod',
@@ -71,12 +71,12 @@ const API_SITES = {
     },
     jisu: {
         api: 'https://jszyapi.com/api.php/provide/vod',
-        name: '极速资源',
+        name: '极速资源（1920*800）',
         detail: 'https://jszyapi.com', 
     },
     dbzy: {
         api: 'https://dbzy.tv/api.php/provide/vod',
-        name: '豆瓣资源',
+        name: '豆瓣资源（2592.00x1080）',
     },
     mozhua: {
         api: 'https://mozhuazy.com/api.php/provide/vod',
@@ -84,7 +84,7 @@ const API_SITES = {
     },
     mdzy: {
         api: 'https://www.mdzyapi.com/api.php/provide/vod',
-        name: '魔都资源',
+        name: '魔都资源（1920*800）',
     },
     zuid: {
         api: 'https://api.zuidapi.com/api.php/provide/vod',
@@ -100,7 +100,7 @@ const API_SITES = {
     },
     wujin: {
         api: 'https://api.wujinapi.me/api.php/provide/vod',
-        name: '无尽资源'
+        name: '无尽资源（1728*720）'
     },
     wwzy: {
         api: 'https://wwzy.tv/api.php/provide/vod',
@@ -108,7 +108,7 @@ const API_SITES = {
     },
     ikun: {
         api: 'https://ikunzyapi.com/api.php/provide/vod',
-        name: 'iKun资源'
+        name: 'iKun资源（1920*800）'
     },
      ckzy: {
          api: 'https://www.ckzy1.com/api.php/provide/vod',
