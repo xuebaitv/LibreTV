@@ -1,5 +1,5 @@
 // 页面加载后显示弹窗脚本
-document.addEventListener('DOMContentLoaded', function() {
+document。addEventListener('DOMContentLoaded', function() {
     // 弹窗显示脚本
     // 检查用户是否已经看过声明
     const hasSeenDisclaimer = localStorage.getItem('hasSeenDisclaimer');
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 try {
                     window.history.replaceState(
                         { search: keyword }, 
-                        `搜索: ${keyword} - LibreTV`, 
+                        `搜索: ${keyword} - XuebaiTV`, 
                         window.location.href
                     );
                 } catch (e) {
