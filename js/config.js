@@ -193,7 +193,7 @@ const API_SITES = {
      },
     leboyo:  {
         api: "https://lbapi9.com/api.php/provide/vod/",
-        name: 🔞乐播资源",
+        name: "乐播资源",
         adult: true
      },
     dd1: {
