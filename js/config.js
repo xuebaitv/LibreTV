@@ -161,35 +161,10 @@ const API_SITES = {
          name: '百万资源',
          adult: true
      },
-     ysj: {
-         api: "https://www.xrbsp.com/api/json.php",
-         name: "淫水机资源",
-         adult: true
-     },
      fanhao: {
          api: "http://fhapi9.com/api.php/provide/vod/",
          name: "番号资源",
          adult: true
-     },
-     huangkun: {
-         api: "https://www.pgxdy.com/api/json.php",
-         name: "黄AV资源",
-         adult: true
-     },
-     xnr: {
-         api: "https://www.gdlsp.com/api/json.php",
-         name: "香奶儿资源",
-         adult: true
-     },
-     msn: {
-         api: "https://www.msnii.com/api/json.php",
-         name: "美少女资源",
-         adult: true
-     },
-     baipiao:{
-        api: "https://www.kxgav.com/api/json.php",
-        name: "白嫖资源",
-        adult: true
      },
     leboyo:  {
         api: "https://lbapi9.com/api.php/provide/vod/",
